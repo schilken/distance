@@ -17,37 +17,75 @@ class TheWorld extends Box2DComponent implements ContactListener {
   PersonComponent person0;
   PersonComponent ninja2;
   Random random = Random();
-  TheWorld() : super(scale: 1.0, gravity: 0);
+  TheWorld() : super(scale: 1.5, gravity: 0);
+
+  int get random_7_14 {
+    return 7 + random.nextInt(7);
+  }
 
   void initializeWorld() {
     final Vector2 _gravity = Vector2.zero();
-    world = new World.withPool(
+    world = World.withPool(
         _gravity, DefaultWorldPool(WORLD_POOL_SIZE, WORLD_POOL_CONTAINER_SIZE));
     world.setContactListener(this);
 
-    person0 = PersonComponent(this, -50, -50);
+    person0 = PersonComponent(this, -140, -200);
     person0.infected = true;
-
-    person0.setVelocity(Vector2(1, 1), 10000.0);
+    person0.setVelocity(Vector2(300, 400), 7);
     add(person0);
 
-    for (var nn = 0; nn < 12; nn++) {
+    for (var nn = 0; nn < random_7_14; nn++) {
+      add(PersonComponent(
+        this,
+        -150 + 20 * random.nextDouble(),
+        0 + 20 * random.nextDouble(),
+      ));
+    }
+
+    for (var nn = 0; nn < random_7_14; nn++) {
+      add(PersonComponent(
+        this,
+        -50 + 20 * random.nextDouble(),
+        0 + 20 * random.nextDouble(),
+      ));
+    }
+
+    for (var nn = 0; nn < random_7_14; nn++) {
       add(PersonComponent(
         this,
         50 + 20 * random.nextDouble(),
         50 + 20 * random.nextDouble(),
       ));
+    }
 
+    for (var nn = 0; nn < random_7_14; nn++) {
+      add(PersonComponent(
+        this,
+        -50 + 20 * random.nextDouble(),
+        -100 + 20 * random.nextDouble(),
+      ));
+    }
+
+    for (var nn = 0; nn < random_7_14; nn++) {
+      add(PersonComponent(
+        this,
+        70 + 20 * random.nextDouble(),
+        -50 + 20 * random.nextDouble(),
+      ));
+    }
+    for (var nn = 0; nn < random_7_14; nn++) {
       add(PersonComponent(
         this,
         50 + 20 * random.nextDouble(),
-        150 + 20 * random.nextDouble(),
+        -150 + 20 * random.nextDouble(),
       ));
+    }
 
+    for (var nn = 0; nn < random_7_14; nn++) {
       add(PersonComponent(
         this,
-        200 + 20 * random.nextDouble(),
-        200 + 20 * random.nextDouble(),
+        -30 + 20 * random.nextDouble(),
+        120 + 20 * random.nextDouble(),
       ));
     }
   }
@@ -60,7 +98,8 @@ class TheWorld extends Box2DComponent implements ContactListener {
 
   @override
   void render(canvas) {
-    Rect bgRect = Rect.fromLTWH(0, 0, viewport.width, viewport.height);
+    Rect bgRect = Rect.fromLTWH(0, 0, viewport.width * viewport.scale,
+        viewport.height * viewport.scale);
     Paint bgPaint = Paint();
     bgPaint.color = Color(0xff33aa33);
     canvas.drawRect(bgRect, bgPaint);
@@ -74,6 +113,7 @@ class TheWorld extends Box2DComponent implements ContactListener {
   }
 
   void handleTap(Offset position) {
+    print("position: $position");
     print("person0: $person0");
   }
 

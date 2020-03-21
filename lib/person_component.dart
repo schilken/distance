@@ -1,6 +1,8 @@
+import 'dart:async';
+import 'dart:math';
 import 'dart:ui';
 
-import 'package:box2d_flame/box2d.dart';
+import 'package:box2d_flame/box2d.dart' hide Timer;
 import 'package:flame/box2d/box2d_component.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/painting.dart';
@@ -10,15 +12,19 @@ import 'utils.dart';
 class PersonComponent extends BodyComponent {
   static const num PERSON_RADIUS = 10.0;
 
-  ImagesLoader images = new ImagesLoader();
-
-  bool idle;
-  bool forward;
+  ImagesLoader images = ImagesLoader();
+  Random random = Random();
   bool infected = false;
+  Timer impulsTrigger;
 
   PersonComponent(box2d, double x0, double y0) : super(box2d) {
     _loadImages();
     _createBody(x0, y0);
+    if (random.nextInt(100) < 3) {
+      impulsTrigger = Timer.periodic(Duration(seconds: random.nextInt(20)+10), (_) {
+        impulse(Offset(random.nextDouble() * 7.0, random.nextDouble() * 7.0));
+      });
+    }
   }
 
   void _loadImages() {
@@ -27,10 +33,7 @@ class PersonComponent extends BodyComponent {
   }
 
   @override
-  void update(double t) {
-     this.idle = body.linearVelocity.x.abs() < 0.1 && body.linearVelocity.y.abs() < 0.1;
-     this.forward = body.linearVelocity.x >= 0.0;
-  }
+  void update(double t) {}
 
   @override
   void renderCircle(Canvas canvas, Offset center, double radius) {
@@ -41,38 +44,32 @@ class PersonComponent extends BodyComponent {
     paintImage(
         canvas: canvas,
         image: image,
-        rect: new Rect.fromCircle(center: center, radius: radius),
+        rect: Rect.fromCircle(center: center, radius: radius),
         flipHorizontally: false,
         fit: BoxFit.contain);
   }
 
   void _createBody(double x0, double y0) {
-    final shape = new CircleShape();
+    final shape = CircleShape();
     shape.radius = PersonComponent.PERSON_RADIUS;
     shape.p.x = 0.0;
 
-    final activeFixtureDef = new FixtureDef();
+    final activeFixtureDef = FixtureDef();
     activeFixtureDef.shape = shape;
     activeFixtureDef.restitution = 0.0;
-    activeFixtureDef.density = 0.75;
-    activeFixtureDef.friction = 0.1;
+    activeFixtureDef.density = 0.99;
+    activeFixtureDef.friction = 0.01;
     activeFixtureDef.userData = this;
     FixtureDef fixtureDef = activeFixtureDef;
-    final activeBodyDef = new BodyDef();
-    activeBodyDef.linearVelocity = new Vector2(0.0, 0.0);
-    activeBodyDef.position = new Vector2(x0, y0);
+    final activeBodyDef = BodyDef();
+    activeBodyDef.linearVelocity = Vector2(0.0, 0.0);
+    activeBodyDef.position = Vector2(x0, y0);
     activeBodyDef.type = BodyType.DYNAMIC;
-    activeBodyDef.bullet = true;
+    //activeBodyDef.bullet = true;
     BodyDef bodyDef = activeBodyDef;
 
     this.body = world.createBody(bodyDef)
       ..createFixtureFromFixtureDef(fixtureDef);
-  }
-
-  void input(Offset position) {
-    Vector2 force =
-    position.dx < 250 ? new Vector2(-1.0, 0.0) : new Vector2(1.0, 0.0);
-    body.applyForce(force..scale(10000.0), center);
   }
 
   void handleDragUpdate(DragUpdateDetails details) {
@@ -85,19 +82,19 @@ class PersonComponent extends BodyComponent {
 
   void impulse(Offset velocity) {
     print("impulse $velocity");
-    Vector2 force = new Vector2(velocity.dx, -velocity.dy)..scale(100.0);
+    Vector2 force = Vector2(velocity.dx, -velocity.dy)..scale(100.0);
     body.applyLinearImpulse(force, center, true);
   }
 
   void stop() {
-    body.linearVelocity = new Vector2(0.0, 0.0);
+    body.linearVelocity = Vector2(0.0, 0.0);
     body.angularVelocity = 0.0;
   }
 
   void setVelocity(Vector2 direction, double speed) {
     body.linearVelocity = direction;
     body.angularVelocity = speed;
-    body.applyForce(direction..scale(speed), center);
+//    body.applyForce(direction..scale(speed), center);
   }
 
   @override
