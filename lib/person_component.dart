@@ -37,9 +37,7 @@ class PersonComponent extends BodyComponent {
     if (images.isLoading) {
       return;
     }
-
     var image = infected ? images.get("sad") : images.get("neutral");
-
     paintImage(
         canvas: canvas,
         image: image,
@@ -58,6 +56,7 @@ class PersonComponent extends BodyComponent {
     activeFixtureDef.restitution = 0.0;
     activeFixtureDef.density = 0.75;
     activeFixtureDef.friction = 0.1;
+    activeFixtureDef.userData = this;
     FixtureDef fixtureDef = activeFixtureDef;
     final activeBodyDef = new BodyDef();
     activeBodyDef.linearVelocity = new Vector2(0.0, 0.0);
