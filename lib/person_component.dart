@@ -84,6 +84,7 @@ class PersonComponent extends BodyComponent {
   }
 
   void impulse(Offset velocity) {
+    print("impulse $velocity");
     Vector2 force = new Vector2(velocity.dx, -velocity.dy)..scale(100.0);
     body.applyLinearImpulse(force, center, true);
   }
@@ -91,5 +92,16 @@ class PersonComponent extends BodyComponent {
   void stop() {
     body.linearVelocity = new Vector2(0.0, 0.0);
     body.angularVelocity = 0.0;
+  }
+
+  void setVelocity(Vector2 direction, double speed) {
+    body.linearVelocity = direction;
+    body.angularVelocity = speed;
+    body.applyForce(direction..scale(speed), center);
+  }
+
+  @override
+  String toString() {
+    return "linearVelocity ${body.linearVelocity} angularVelocity: ${body.angularVelocity}";
   }
 }

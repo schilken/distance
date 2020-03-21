@@ -25,24 +25,29 @@ class TheWorld extends Box2DComponent implements ContactListener {
         _gravity, DefaultWorldPool(WORLD_POOL_SIZE, WORLD_POOL_CONTAINER_SIZE));
     world.setContactListener(this);
 
-    person0 = PersonComponent(this, 0, 0);
+    person0 = PersonComponent(this, -50, -50);
     person0.infected = true;
+
+    person0.setVelocity(Vector2(1, 1), 10000.0);
     add(person0);
-    add(PersonComponent(this, -100, -100));
-    add(PersonComponent(this, 100, 100));
+
     for (var nn = 0; nn < 12; nn++) {
       add(PersonComponent(
         this,
         50 + 20 * random.nextDouble(),
         50 + 20 * random.nextDouble(),
       ));
-    }
 
-    for (var nn = 0; nn < 12; nn++) {
       add(PersonComponent(
         this,
-        100 + 20 * random.nextDouble(),
-        100 + 20 * random.nextDouble(),
+        50 + 20 * random.nextDouble(),
+        150 + 20 * random.nextDouble(),
+      ));
+
+      add(PersonComponent(
+        this,
+        200 + 20 * random.nextDouble(),
+        200 + 20 * random.nextDouble(),
       ));
     }
   }
@@ -69,7 +74,7 @@ class TheWorld extends Box2DComponent implements ContactListener {
   }
 
   void handleTap(Offset position) {
-    print("handleTap: $position");
+    print("person0: $person0");
   }
 
   void handleDragUpdate(DragUpdateDetails details) {
@@ -82,28 +87,21 @@ class TheWorld extends Box2DComponent implements ContactListener {
 
   @override
   void beginContact(Contact contact) {
-    // TODO: implement beginContact
     var fudA = contact.fixtureA.userData as PersonComponent;
     var fudB = contact.fixtureB.userData as PersonComponent;
-    print("beginContact ${fudA.infected} ${fudB.infected}");
-    if(fudA.infected || fudB.infected) {
+    //print("beginContact ${fudA.infected} ${fudB.infected}");
+    if (fudA.infected || fudB.infected) {
       fudA.infected = true;
       fudB.infected = true;
     }
   }
 
   @override
-  void endContact(Contact contact) {
-    // TODO: implement endContact
-  }
+  void endContact(Contact contact) {}
 
   @override
-  void postSolve(Contact contact, ContactImpulse impulse) {
-    // TODO: implement postSolve
-  }
+  void postSolve(Contact contact, ContactImpulse impulse) {}
 
   @override
-  void preSolve(Contact contact, Manifold oldManifold) {
-    // TODO: implement preSolve
-  }
+  void preSolve(Contact contact, Manifold oldManifold) {}
 }
