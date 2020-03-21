@@ -9,15 +9,16 @@ import 'person_component.dart';
 
 
 class TheWorld extends Box2DComponent {
-  PersonComponent ninja1;
+  PersonComponent person0;
   PersonComponent ninja2;
   Random random = Random();
   TheWorld() : super(scale: 1.0, gravity: 0);
 
   void initializeWorld() {
 
-    ninja1 = PersonComponent(this, 0, 0);
-    add(ninja1);
+    person0 = PersonComponent(this, 0, 0);
+    person0.infected = true;
+    add(person0);
     add(PersonComponent(this, -100, -100));
     add(PersonComponent(this, 100, 100));
     for (var nn = 0; nn < 12; nn++) {
@@ -63,10 +64,10 @@ class TheWorld extends Box2DComponent {
   }
 
   void handleDragUpdate(DragUpdateDetails details) {
-    ninja1.handleDragUpdate(details);
+    person0.handleDragUpdate(details);
   }
 
   void handleDragEnd(DragEndDetails details) {
-    ninja1.handleDragEnd(details);
+    person0.handleDragEnd(details);
   }
 }

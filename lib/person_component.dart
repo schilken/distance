@@ -13,11 +13,8 @@ class PersonComponent extends BodyComponent {
   ImagesLoader images = new ImagesLoader();
 
   bool idle;
-
   bool forward;
-
-  bool jumping;
-  
+  bool infected = false;
 
   PersonComponent(box2d, double x0, double y0) : super(box2d) {
     _loadImages();
@@ -41,7 +38,7 @@ class PersonComponent extends BodyComponent {
       return;
     }
 
-    var image = images.get("neutral");
+    var image = infected ? images.get("sad") : images.get("neutral");
 
     paintImage(
         canvas: canvas,
