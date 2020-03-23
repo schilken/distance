@@ -11,13 +11,13 @@ import 'person_component.dart';
 class TheWorld extends Box2DComponent implements ContactListener {
   static const int WORLD_POOL_SIZE = 100;
   static const int WORLD_POOL_CONTAINER_SIZE = 10;
-
+  static const double scale = 10.0; 
   World world;
 
   PersonComponent person0;
   PersonComponent ninja2;
   Random random = Random();
-  TheWorld() : super(scale: 1.5, gravity: 0);
+  TheWorld() : super(scale: scale, gravity: 0);
 
   int get random_7_14 {
     return 7 + random.nextInt(7);
@@ -29,7 +29,7 @@ class TheWorld extends Box2DComponent implements ContactListener {
         _gravity, DefaultWorldPool(WORLD_POOL_SIZE, WORLD_POOL_CONTAINER_SIZE));
     world.setContactListener(this);
 
-    person0 = PersonComponent(this, -140, -200);
+    person0 = PersonComponent(this, -28, -40);
     person0.infected = true;
     person0.setVelocity(Vector2(300, 400), 7);
     add(person0);
@@ -37,55 +37,55 @@ class TheWorld extends Box2DComponent implements ContactListener {
     for (var nn = 0; nn < random_7_14; nn++) {
       add(PersonComponent(
         this,
-        -150 + 20 * random.nextDouble(),
-        0 + 20 * random.nextDouble(),
+        -15 + 2 * random.nextDouble(),
+        0 + 2 * random.nextDouble(),
       ));
     }
 
     for (var nn = 0; nn < random_7_14; nn++) {
       add(PersonComponent(
         this,
-        -50 + 20 * random.nextDouble(),
-        0 + 20 * random.nextDouble(),
+        -5 + 2 * random.nextDouble(),
+        0 + 2 * random.nextDouble(),
       ));
     }
 
     for (var nn = 0; nn < random_7_14; nn++) {
       add(PersonComponent(
         this,
-        50 + 20 * random.nextDouble(),
-        50 + 20 * random.nextDouble(),
+        5 + 2 * random.nextDouble(),
+        5 + 2 * random.nextDouble(),
       ));
     }
 
     for (var nn = 0; nn < random_7_14; nn++) {
       add(PersonComponent(
         this,
-        -50 + 20 * random.nextDouble(),
-        -100 + 20 * random.nextDouble(),
+        -5 + 2 * random.nextDouble(),
+        -10 + 2 * random.nextDouble(),
       ));
     }
 
     for (var nn = 0; nn < random_7_14; nn++) {
       add(PersonComponent(
         this,
-        70 + 20 * random.nextDouble(),
-        -50 + 20 * random.nextDouble(),
+        7 + 2 * random.nextDouble(),
+        -5 + 2 * random.nextDouble(),
       ));
     }
     for (var nn = 0; nn < random_7_14; nn++) {
       add(PersonComponent(
         this,
-        50 + 20 * random.nextDouble(),
-        -150 + 20 * random.nextDouble(),
+        5 + 2 * random.nextDouble(),
+        -15 + 2 * random.nextDouble(),
       ));
     }
 
     for (var nn = 0; nn < random_7_14; nn++) {
       add(PersonComponent(
         this,
-        -30 + 20 * random.nextDouble(),
-        120 + 20 * random.nextDouble(),
+        -3 + 2 * random.nextDouble(),
+        12 + 2 * random.nextDouble(),
       ));
     }
   }

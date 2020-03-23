@@ -10,7 +10,7 @@ import 'package:flutter/painting.dart';
 import 'utils.dart';
 
 class PersonComponent extends BodyComponent {
-  static const num PERSON_RADIUS = 10.0;
+  static const num PERSON_RADIUS = 1.0;
 
   ImagesLoader images = ImagesLoader();
   Random random = Random();
@@ -22,7 +22,7 @@ class PersonComponent extends BodyComponent {
     _createBody(x0, y0);
     if (random.nextInt(100) < 3) {
       impulsTrigger = Timer.periodic(Duration(seconds: random.nextInt(20)+10), (_) {
-        impulse(Offset(random.nextDouble() * 7.0, random.nextDouble() * 7.0));
+        impulse(Offset(random.nextDouble() * 0.1, random.nextDouble() * 0.1));
       });
     }
   }
