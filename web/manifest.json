@@ -1,6 +1,6 @@
 {
-    "name": "haunt",
-    "short_name": "haunt",
+    "name": "distance",
+    "short_name": "distance",
     "start_url": ".",
     "display": "minimal-ui",
     "background_color": "#0175C2",

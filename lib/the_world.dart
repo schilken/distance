@@ -25,9 +25,9 @@ class TheWorld extends Box2DComponent implements ContactListener {
     return 7 + random.nextInt(7);
   }
 
-  PersonComponent addMovingPerson(Vector2 position, Offset impuls) {
-    var person = PersonComponent(this, position);
-    person.impulse(impuls);
+  PersonComponent addMovingPerson(Vector2 position, Offset impulse, PersonType type) {
+    var person = PersonComponent(this, position, impulse, type);
+//    person.impulse(impuls);
     add(person);
     return person;
   }
@@ -38,18 +38,26 @@ class TheWorld extends Box2DComponent implements ContactListener {
         _gravity, DefaultWorldPool(WORLD_POOL_SIZE, WORLD_POOL_CONTAINER_SIZE));
     world.setContactListener(this);
 
-    person0 = addMovingPerson(Vector2(-28, -40), Offset(0.3, 0.4));
-    person0.infected = true;
-    impulsTrigger = Timer(Duration(seconds: 5), () {
+    person0 = addMovingPerson(Vector2(-28, -40), Offset(0.3, 0.4), PersonType.infected);
+    impulsTrigger = Timer(Duration(seconds: 7), () {
       person0.impulse(Offset(-0.01, 0.01));
     });
-    person1 = addMovingPerson(Vector2(-30, -39), Offset(0.3, 0.4));
+    person1 = addMovingPerson(Vector2(-30, -39), Offset(0.3, 0.4), PersonType.insane);
+
+    addMovingPerson(Vector2(-25, 20), Offset(0.05, 0.0), PersonType.sane);
+    addMovingPerson(Vector2(-25, 19), Offset(0.05, 0.0), PersonType.sane);
+
+    addMovingPerson(Vector2(25, 15), Offset(-0.05, 0.02), PersonType.sane);
+    addMovingPerson(Vector2(-45, 6), Offset(0.05, 0.02), PersonType.sane);
+
+    addMovingPerson(Vector2(15, -35), Offset(0.015, 0.06), PersonType.sane);
+    addMovingPerson(Vector2(14, -35), Offset(-0.05, 0.02), PersonType.sane);
 
     List<Vector2> groupPositions = [
       Vector2(-12, 10),
       Vector2(5, 4),
       Vector2(-5, 3),
-      Vector2(-15, 0),
+      Vector2(-14, 0),
       Vector2(-5, -10),
       Vector2(7, -5),
       Vector2(5, -15),
@@ -110,9 +118,9 @@ class TheWorld extends Box2DComponent implements ContactListener {
     var fudA = contact.fixtureA.userData as PersonComponent;
     var fudB = contact.fixtureB.userData as PersonComponent;
     //print("beginContact ${fudA.infected} ${fudB.infected}");
-    if (fudA.infected || fudB.infected) {
-      fudA.infected = true;
-      fudB.infected = true;
+    if (fudA.personType == PersonType.infected || fudB.personType == PersonType.infected) {
+      fudA.personType = PersonType.infected;
+      fudB.personType = PersonType.infected;
     }
   }
 

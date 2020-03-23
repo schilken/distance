@@ -9,20 +9,37 @@ import 'package:flutter/painting.dart';
 
 import 'utils.dart';
 
+enum PersonType { infected, insane, sane }
+
 class PersonComponent extends BodyComponent {
   static const num PERSON_RADIUS = 1.0;
   static int personCount = 0;
 
   ImagesLoader images = ImagesLoader();
   Random random = Random();
-  bool infected = false;
   int id;
   Timer impulsTrigger;
+  PersonType personType;
+  Offset previousImpulse;
 
-  PersonComponent(box2d, Vector2 position) : super(box2d) {
+  PersonComponent(box2d, Vector2 position,
+      [Offset initialImpulse, PersonType type = PersonType.insane])
+      : super(box2d) {
     id = personCount++;
+    personType = type;
+    print("initialImpulse $initialImpulse");
+    this.previousImpulse = initialImpulse;
     _loadImages();
     _createBody(position);
+    if (this.previousImpulse != null) {
+      impulse(this.previousImpulse);
+    }
+    // if (personType == PersonType.sane && initialImpulse != null) {
+    //   impulsTrigger = Timer(Duration(seconds: 40), () {
+    //     stop();
+    //     impulse(-previousImpulse);
+    //   });
+    // }
     if (random.nextInt(100) < 5) {
       impulsTrigger =
           Timer.periodic(Duration(seconds: random.nextInt(20) + 10), (_) {
@@ -34,6 +51,7 @@ class PersonComponent extends BodyComponent {
   void _loadImages() {
     images.load("neutral", "icons8-neutral.png");
     images.load("sad", "icons8-sad.png");
+    images.load("good", "icons8-neutral-yellow.png");
   }
 
   @override
@@ -44,7 +62,19 @@ class PersonComponent extends BodyComponent {
     if (images.isLoading) {
       return;
     }
-    var image = infected ? images.get("sad") : images.get("neutral");
+    String imageName;
+    switch (personType) {
+      case PersonType.infected:
+        imageName = "sad";
+        break;
+      case PersonType.insane:
+        imageName = "neutral";
+        break;
+      case PersonType.sane:
+        imageName = "good";
+        break;
+    }
+    var image = images.get(imageName);
     paintImage(
         canvas: canvas,
         image: image,
@@ -85,6 +115,7 @@ class PersonComponent extends BodyComponent {
   }
 
   void impulse(Offset velocity) {
+    previousImpulse = velocity;
     print("impulse on person $id ${velocity.dx}/${velocity.dy}}");
     Vector2 force = Vector2(velocity.dx, velocity.dy)..scale(100.0);
     body.applyLinearImpulse(force, center, true);
