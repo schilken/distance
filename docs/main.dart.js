@@ -20917,14 +20917,14 @@ g.r=f
 f.b.e=g
 t=new E.h(new Float64Array(2))
 t.a6(-28,-40)
-s=F.dR(g,t,new P.G(0.3,0.4),C.cv)
+s=F.dR(g,t,new P.G(0.15,0.2),C.cv)
 t=g.e
 t.push(s)
 g.x=s
 P.aJ(P.cL(0,0,7),new O.z5(g))
 r=new E.h(new Float64Array(2))
 r.a6(-30,-39)
-t.push(F.dR(g,r,new P.G(0.3,0.4),C.iT))
+t.push(F.dR(g,r,new P.G(0.15,0.2),C.iT))
 r=new E.h(new Float64Array(2))
 r.a6(-25,20)
 t.push(F.dR(g,r,new P.G(0.05,0),C.as))

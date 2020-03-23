@@ -38,11 +38,11 @@ class TheWorld extends Box2DComponent implements ContactListener {
         _gravity, DefaultWorldPool(WORLD_POOL_SIZE, WORLD_POOL_CONTAINER_SIZE));
     world.setContactListener(this);
 
-    person0 = addMovingPerson(Vector2(-28, -40), Offset(0.3, 0.4), PersonType.infected);
+    person0 = addMovingPerson(Vector2(-28, -40), Offset(0.15, 0.2), PersonType.infected);
     impulsTrigger = Timer(Duration(seconds: 7), () {
       person0.impulse(Offset(-0.01, 0.01));
     });
-    person1 = addMovingPerson(Vector2(-30, -39), Offset(0.3, 0.4), PersonType.insane);
+    person1 = addMovingPerson(Vector2(-30, -39), Offset(0.15, 0.2), PersonType.insane);
 
     addMovingPerson(Vector2(-25, 20), Offset(0.05, 0.0), PersonType.sane);
     addMovingPerson(Vector2(-25, 19), Offset(0.05, 0.0), PersonType.sane);
