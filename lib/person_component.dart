@@ -11,18 +11,27 @@ import 'utils.dart';
 
 class PersonComponent extends BodyComponent {
   static const num PERSON_RADIUS = 1.0;
+  static int personCount = 0;
 
   ImagesLoader images = ImagesLoader();
   Random random = Random();
   bool infected = false;
+  int id;
   Timer impulsTrigger;
 
   PersonComponent(box2d, double x0, double y0) : super(box2d) {
+    id = personCount++;
     _loadImages();
     _createBody(x0, y0);
-    if (random.nextInt(100) < 3) {
-      impulsTrigger = Timer.periodic(Duration(seconds: random.nextInt(20)+10), (_) {
-        impulse(Offset(random.nextDouble() * 0.1, random.nextDouble() * 0.1));
+    if (random.nextInt(100) < 5) {
+      impulsTrigger =
+          Timer.periodic(Duration(seconds: random.nextInt(20) + 10), (_) {
+        impulse(Offset(random.nextDouble() * 0.03, random.nextDouble() * 0.03));
+      });
+    }
+    if (id == 0) {
+      impulsTrigger = Timer(Duration(seconds: 3), () {
+        impulse(Offset(-0.01, -0.01));
       });
     }
   }
@@ -81,7 +90,7 @@ class PersonComponent extends BodyComponent {
   }
 
   void impulse(Offset velocity) {
-    print("impulse $velocity");
+    print("impulse on person $id $velocity");
     Vector2 force = Vector2(velocity.dx, -velocity.dy)..scale(100.0);
     body.applyLinearImpulse(force, center, true);
   }

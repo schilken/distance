@@ -11,11 +11,11 @@ import 'person_component.dart';
 class TheWorld extends Box2DComponent implements ContactListener {
   static const int WORLD_POOL_SIZE = 100;
   static const int WORLD_POOL_CONTAINER_SIZE = 10;
-  static const double scale = 10.0; 
+  static const double scale = 10.0;
   World world;
 
   PersonComponent person0;
-  PersonComponent ninja2;
+  PersonComponent person1;
   Random random = Random();
   TheWorld() : super(scale: scale, gravity: 0);
 
@@ -34,59 +34,29 @@ class TheWorld extends Box2DComponent implements ContactListener {
     person0.setVelocity(Vector2(300, 400), 7);
     add(person0);
 
-    for (var nn = 0; nn < random_7_14; nn++) {
-      add(PersonComponent(
-        this,
-        -15 + 2 * random.nextDouble(),
-        0 + 2 * random.nextDouble(),
-      ));
-    }
+    person1 = PersonComponent(this, -30, -39);
+    person1.setVelocity(Vector2(300, 400), 7);
+    add(person1);
 
-    for (var nn = 0; nn < random_7_14; nn++) {
-      add(PersonComponent(
-        this,
-        -5 + 2 * random.nextDouble(),
-        0 + 2 * random.nextDouble(),
-      ));
-    }
+    List<Vector2> groupPositions = [
+      Vector2(-12, 10),
+      Vector2(5, 4),
+      Vector2(-5, 3),
+      Vector2(-15, 0),
+      Vector2(-5, -10),
+      Vector2(7, -5),
+      Vector2(5, -15),
+      Vector2(-3, 12),
+    ];
 
-    for (var nn = 0; nn < random_7_14; nn++) {
-      add(PersonComponent(
-        this,
-        5 + 2 * random.nextDouble(),
-        5 + 2 * random.nextDouble(),
-      ));
-    }
-
-    for (var nn = 0; nn < random_7_14; nn++) {
-      add(PersonComponent(
-        this,
-        -5 + 2 * random.nextDouble(),
-        -10 + 2 * random.nextDouble(),
-      ));
-    }
-
-    for (var nn = 0; nn < random_7_14; nn++) {
-      add(PersonComponent(
-        this,
-        7 + 2 * random.nextDouble(),
-        -5 + 2 * random.nextDouble(),
-      ));
-    }
-    for (var nn = 0; nn < random_7_14; nn++) {
-      add(PersonComponent(
-        this,
-        5 + 2 * random.nextDouble(),
-        -15 + 2 * random.nextDouble(),
-      ));
-    }
-
-    for (var nn = 0; nn < random_7_14; nn++) {
-      add(PersonComponent(
-        this,
-        -3 + 2 * random.nextDouble(),
-        12 + 2 * random.nextDouble(),
-      ));
+    for (var position in groupPositions) {
+      for (var nn = 0; nn < random_7_14; nn++) {
+        add(PersonComponent(
+          this,
+          position.x + 2 * random.nextDouble(),
+          position.y + 2 * random.nextDouble(),
+        ));
+      }
     }
   }
 
@@ -112,17 +82,16 @@ class TheWorld extends Box2DComponent implements ContactListener {
     super.resize(size);
   }
 
-  void handleTap(Offset position) {
-    print("position: $position");
-    print("person0: $person0");
+  void handleTap(Offset position, {bool down}) {
+    print("position: $position $down");
   }
 
   void handleDragUpdate(DragUpdateDetails details) {
-    person0.handleDragUpdate(details);
+//    person0.handleDragUpdate(details);
   }
 
   void handleDragEnd(DragEndDetails details) {
-    person0.handleDragEnd(details);
+//    person0.handleDragEnd(details);
   }
 
   @override
