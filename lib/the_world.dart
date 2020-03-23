@@ -1,7 +1,8 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:box2d_flame/box2d.dart';
+import 'package:box2d_flame/box2d.dart' hide Timer;
 import 'package:flame/box2d/box2d_component.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/painting.dart';
@@ -17,6 +18,7 @@ class TheWorld extends Box2DComponent implements ContactListener {
   PersonComponent person0;
   PersonComponent person1;
   Random random = Random();
+  Timer impulsTrigger;
   TheWorld() : super(scale: scale, gravity: 0);
 
   int get random_7_14 {
@@ -31,11 +33,14 @@ class TheWorld extends Box2DComponent implements ContactListener {
 
     person0 = PersonComponent(this, -28, -40);
     person0.infected = true;
-    person0.setVelocity(Vector2(300, 400), 7);
+    person0.impulse(Offset(0.3, 0.4));
     add(person0);
+    impulsTrigger = Timer(Duration(seconds: 5), () {
+        person0.impulse(Offset(-0.01, 0.01));
+      });
 
     person1 = PersonComponent(this, -30, -39);
-    person1.setVelocity(Vector2(300, 400), 7);
+    person1.impulse(Offset(0.3, 0.4));
     add(person1);
 
     List<Vector2> groupPositions = [

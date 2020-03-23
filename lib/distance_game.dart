@@ -16,7 +16,7 @@ class DistanceGame extends Game  with TapDetector, PanDetector  {
 
   DistanceGame(Size size) {
     this.size = size;
-    print("size: $size");
+//    print("size: $size");
     theWorld.initializeWorld();
   }
 
@@ -37,7 +37,12 @@ class DistanceGame extends Game  with TapDetector, PanDetector  {
 
   @override
   void onTapUp(TapUpDetails details) {
-    theWorld.handleTap(details.globalPosition);
+    theWorld.handleTap(details.globalPosition, down: true);
+  }
+
+  @override
+  void onTapDown(TapDownDetails details) {
+    theWorld.handleTap(details.globalPosition, down: false);
   }
 
   @override

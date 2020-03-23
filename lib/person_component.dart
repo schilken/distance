@@ -29,11 +29,6 @@ class PersonComponent extends BodyComponent {
         impulse(Offset(random.nextDouble() * 0.03, random.nextDouble() * 0.03));
       });
     }
-    if (id == 0) {
-      impulsTrigger = Timer(Duration(seconds: 3), () {
-        impulse(Offset(-0.01, -0.01));
-      });
-    }
   }
 
   void _loadImages() {
@@ -90,8 +85,8 @@ class PersonComponent extends BodyComponent {
   }
 
   void impulse(Offset velocity) {
-    print("impulse on person $id $velocity");
-    Vector2 force = Vector2(velocity.dx, -velocity.dy)..scale(100.0);
+    print("impulse on person $id ${velocity.dx}/${velocity.dy}}");
+    Vector2 force = Vector2(velocity.dx, velocity.dy)..scale(100.0);
     body.applyLinearImpulse(force, center, true);
   }
 
@@ -103,7 +98,6 @@ class PersonComponent extends BodyComponent {
   void setVelocity(Vector2 direction, double speed) {
     body.linearVelocity = direction;
     body.angularVelocity = speed;
-//    body.applyForce(direction..scale(speed), center);
   }
 
   @override
