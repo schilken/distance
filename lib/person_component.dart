@@ -19,10 +19,10 @@ class PersonComponent extends BodyComponent {
   int id;
   Timer impulsTrigger;
 
-  PersonComponent(box2d, double x0, double y0) : super(box2d) {
+  PersonComponent(box2d, Vector2 position) : super(box2d) {
     id = personCount++;
     _loadImages();
-    _createBody(x0, y0);
+    _createBody(position);
     if (random.nextInt(100) < 5) {
       impulsTrigger =
           Timer.periodic(Duration(seconds: random.nextInt(20) + 10), (_) {
@@ -53,7 +53,7 @@ class PersonComponent extends BodyComponent {
         fit: BoxFit.contain);
   }
 
-  void _createBody(double x0, double y0) {
+  void _createBody(Vector2 position) {
     final shape = CircleShape();
     shape.radius = PersonComponent.PERSON_RADIUS;
     shape.p.x = 0.0;
@@ -67,7 +67,7 @@ class PersonComponent extends BodyComponent {
     FixtureDef fixtureDef = activeFixtureDef;
     final activeBodyDef = BodyDef();
     activeBodyDef.linearVelocity = Vector2(0.0, 0.0);
-    activeBodyDef.position = Vector2(x0, y0);
+    activeBodyDef.position = position;
     activeBodyDef.type = BodyType.DYNAMIC;
     //activeBodyDef.bullet = true;
     BodyDef bodyDef = activeBodyDef;

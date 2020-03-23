@@ -25,23 +25,25 @@ class TheWorld extends Box2DComponent implements ContactListener {
     return 7 + random.nextInt(7);
   }
 
+  PersonComponent addMovingPerson(Vector2 position, Offset impuls) {
+    var person = PersonComponent(this, position);
+    person.impulse(impuls);
+    add(person);
+    return person;
+  }
+
   void initializeWorld() {
     final Vector2 _gravity = Vector2.zero();
     world = World.withPool(
         _gravity, DefaultWorldPool(WORLD_POOL_SIZE, WORLD_POOL_CONTAINER_SIZE));
     world.setContactListener(this);
 
-    person0 = PersonComponent(this, -28, -40);
+    person0 = addMovingPerson(Vector2(-28, -40), Offset(0.3, 0.4));
     person0.infected = true;
-    person0.impulse(Offset(0.3, 0.4));
-    add(person0);
     impulsTrigger = Timer(Duration(seconds: 5), () {
-        person0.impulse(Offset(-0.01, 0.01));
-      });
-
-    person1 = PersonComponent(this, -30, -39);
-    person1.impulse(Offset(0.3, 0.4));
-    add(person1);
+      person0.impulse(Offset(-0.01, 0.01));
+    });
+    person1 = addMovingPerson(Vector2(-30, -39), Offset(0.3, 0.4));
 
     List<Vector2> groupPositions = [
       Vector2(-12, 10),
@@ -56,11 +58,15 @@ class TheWorld extends Box2DComponent implements ContactListener {
 
     for (var position in groupPositions) {
       for (var nn = 0; nn < random_7_14; nn++) {
-        add(PersonComponent(
-          this,
-          position.x + 2 * random.nextDouble(),
-          position.y + 2 * random.nextDouble(),
-        ));
+        add(
+          PersonComponent(
+            this,
+            Vector2(
+              position.x + 2 * random.nextDouble(),
+              position.y + 2 * random.nextDouble(),
+            ),
+          ),
+        );
       }
     }
   }
@@ -68,7 +74,7 @@ class TheWorld extends Box2DComponent implements ContactListener {
   @override
   void update(t) {
     super.update(t);
-    //cameraFollow(ninja1, horizontal: 0.4, vertical: 1.0);
+    //cameraFollow(person0, horizontal: 0.4, vertical: 1.0);
   }
 
   @override
