@@ -106,11 +106,11 @@ class TheWorld extends Box2DComponent implements ContactListener {
   }
 
   void handleDragUpdate(DragUpdateDetails details) {
-//    person0.handleDragUpdate(details);
+    person0.handleDragUpdate(details);
   }
 
   void handleDragEnd(DragEndDetails details) {
-//    person0.handleDragEnd(details);
+    person0.handleDragEnd(details);
   }
 
   @override

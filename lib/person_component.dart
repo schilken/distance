@@ -27,7 +27,7 @@ class PersonComponent extends BodyComponent {
       : super(box2d) {
     id = personCount++;
     personType = type;
-    print("initialImpulse $initialImpulse");
+    //print("initialImpulse $initialImpulse");
     this.previousImpulse = initialImpulse;
     _loadImages();
     _createBody(position);
@@ -107,16 +107,16 @@ class PersonComponent extends BodyComponent {
   }
 
   void handleDragUpdate(DragUpdateDetails details) {
-    impulse(details.delta);
+    impulse(Offset(details.delta.dx, -details.delta.dy) * 0.0005);
   }
 
   void handleDragEnd(DragEndDetails details) {
-    impulse(details.velocity.pixelsPerSecond);
+//    impulse(Offset(details.velocity.pixelsPerSecond.dx, -details.velocity.pixelsPerSecond.dy) * 0.0005);
   }
 
   void impulse(Offset velocity) {
     previousImpulse = velocity;
-    print("impulse on person $id ${velocity.dx}/${velocity.dy}}");
+    //print("impulse on person $id ${velocity.dx}/${velocity.dy}}");
     Vector2 force = Vector2(velocity.dx, velocity.dy)..scale(100.0);
     body.applyLinearImpulse(force, center, true);
   }
